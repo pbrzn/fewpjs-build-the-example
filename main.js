@@ -4,6 +4,30 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+const modal = document.querySelector('div#modal');
+modal.classList.add("hidden")
+
+const allHearts = document.querySelectorAll('span.like-glyph');
+
+allHearts.forEach(heart => {
+  heart.addEventListener("click", () => {
+    mimicServerCall()
+    .then(() => {
+      if (heart.classList.value.includes('activated-heart')) {
+        heart.classList.remove('activated-heart');
+        heart.innerHTML = EMPTY_HEART;
+      } else {
+        heart.classList.add('activated-heart');
+        heart.innerHTML = FULL_HEART;
+      }
+    })
+    .catch(error => {
+      setTimeout(() => modal.classList.add("hidden"), 3000);
+      modal.classList.remove('hidden');
+      document.querySelector('p#modal-message').innerHTML = error;
+    })
+  })
+})
 
 
 
